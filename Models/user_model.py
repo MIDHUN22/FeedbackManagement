@@ -6,9 +6,9 @@ class UserModel:
         db.cursor.execute(
             '''
             SELECT * FROM users where username=?
-            ''',(username)
+            ''',(username,)
         )
-    return db.cursor.fetchone()
+        return db.cursor.fetchone()
 
     def create_user(self, username, password, role):
 
