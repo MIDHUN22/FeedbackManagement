@@ -21,6 +21,7 @@ class UserModel:
         )
 
         db.conn.commit()
+        return db.cursor.lastrowid
 
     def login_user(self,username,password):
         db.cursor.execute(

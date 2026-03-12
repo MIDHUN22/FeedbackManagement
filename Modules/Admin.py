@@ -1,5 +1,9 @@
 class Admin:
 
+    def __init__(self):
+        self.feedback_model=FeedbackModel()
+        self.user_model=UserModel()
+
     def menu(self):
         while True:
             print("\n--- Admin Menu ---\n1. View Feedback\t2. Manage Products\n3. Logout")
@@ -18,3 +22,8 @@ class Admin:
 
             else:
                 print("Invalid choice")
+                return
+    
+    # def ViewAll(self):
+
+

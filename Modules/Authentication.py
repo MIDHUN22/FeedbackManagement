@@ -1,6 +1,7 @@
 import re
 from Models.db import db
 from Models.user_model import UserModel
+from Models.customer_model import CustomerModel
 
 class Authentication:
     # pass
@@ -32,7 +33,15 @@ class Authentication:
             print("User already exists")
             return
 
-        self.user_model.create_user(username, password, role)
+        user_id =self.user_model.create_user(username, password, role)
+        if role == "Customer":
+
+         name = username
+         email = input("Enter email:\t").strip()
+         phone = input("Enter phone:\t").strip()
+
+         customer_model = CustomerModel()
+         customer_model.create_customer(user_id, name, email, phone)
 
         print(f'Registration Successful as {role}')
 
