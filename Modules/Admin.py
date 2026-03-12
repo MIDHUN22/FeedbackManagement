@@ -12,6 +12,7 @@ class Admin:
 
             if choice == "1":
                 print("Viewing feedback...")
+                self.ViewAll()
 
             elif choice == "2":
                 print("Managing products...")
@@ -24,6 +25,15 @@ class Admin:
                 print("Invalid choice")
                 return
     
-    # def ViewAll(self):
+    def ViewAll(self):
+        feedbacks=self.feedback_model.get_all_feedback()
+
+        if not feedbacks:
+            print('No FeedBacks Found')
+            return
+        print('Feedbacks Are..')
+        for fb in feedbacks:
+            print(fb)
+            
 
 

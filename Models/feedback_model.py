@@ -8,7 +8,7 @@ class FeedbackModel:
         '''
     )
 
-    def get_all_feedbach(self):
+    def get_all_feedback(self):
         db.cursor.execute(
         '''
         SELECT * FROM feedback
