@@ -4,6 +4,8 @@ from Models.user_model import UserModel
 
 class Authentication:
     # pass
+    def __init__(self):
+        self.user_model = UserModel()
     def validate(self, username, password):
 
         # name should contain only letters and spaces
@@ -17,12 +19,11 @@ class Authentication:
             return False
         return True
 
-    def register(self):
+    def register(self,role):
         print('____Register Your Self_____')
 
         username = input("Enter username:\t").strip()
         password = input("Enter password:\t").strip()
-        role = input("Enter The Role You Want (Admin,Customer): ").strip()
 
         if not self.validate(username, password):
             return
@@ -33,7 +34,7 @@ class Authentication:
 
         self.user_model.create_user(username, password, role)
 
-        print("Registration Successful!!!")
+        print(f'Registration Successful as {role}')
 
     def Login(self):
         print("_______Login To Account_____")

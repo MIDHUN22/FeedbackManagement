@@ -8,7 +8,7 @@ class MainApp:
 
     def run(self):
 
-        print("Welcome to Customer Feedback System")
+        print("Welcome to Feedback System")
 
         auth = Authentication()
 
@@ -29,7 +29,19 @@ class MainApp:
                 customer.menu()
 
         elif choice == "2":
-            auth.register()
+            # auth.register()
+            print("\nRegister as: \t1.Admin\t2.Customer")
+
+            role_choice = input("Enter choice: ")
+
+            if role_choice == "1":
+                auth.register("Admin")
+
+            elif role_choice == "2":
+                auth.register("Customer")
+
+            else:
+                print("Invalid role choice")
 
         else:
             print("Invalid choice")
