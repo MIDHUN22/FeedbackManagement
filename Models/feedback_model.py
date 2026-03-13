@@ -1,7 +1,7 @@
 from Models.db import Database
 
 class FeedbackModel:
-    def create_feedbach(self,feedback):
+    def create_feedback(self,feedback):
      db.cursor.execute(
         '''
         

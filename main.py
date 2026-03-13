@@ -8,43 +8,54 @@ class MainApp:
 
     def run(self):
 
-        print("Welcome to Feedback System")
+        try:
+            print("Welcome to Feedback System")
 
-        auth = Authentication()
+            auth = Authentication()
 
-        print("1. Login")
-        print("2. Register")
+            print("1. Login")
+            print("2. Register")
 
-        choice = input("Enter choice: ")
+            choice = input("Enter choice: ")
 
-        if choice == "1":
-            role = auth.Login()
+            if choice == "1":
 
-            if role == "Admin":
-                admin = Admin()
-                admin.menu()
+                role = auth.Login()
 
-            elif role == "Customer":
-                customer = Customer()
-                customer.menu()
+                if role == "Admin":
+                    admin = Admin()
+                    admin.menu()
 
-        elif choice == "2":
-            # auth.register()
-            print("\nRegister as: \t1.Admin\t2.Customer")
+                elif role == "Customer":
+                    customer = Customer()
+                    customer.menu()
 
-            role_choice = input("Enter choice: ")
+                else:
+                    print("Invalid role returned")
 
-            if role_choice == "1":
-                auth.register("Admin")
+            elif choice == "2":
 
-            elif role_choice == "2":
-                auth.register("Customer")
+                print("\nRegister as: \t1.Admin\t2.Customer")
+
+                role_choice = input("Enter choice: ")
+
+                if role_choice == "1":
+                    auth.register("Admin")
+
+                elif role_choice == "2":
+                    auth.register("Customer")
+
+                else:
+                    print("Invalid role choice")
 
             else:
-                print("Invalid role choice")
+                print("Invalid choice")
 
-        else:
-            print("Invalid choice")
+        except ValueError:
+            print("Invalid input! Please enter correct value")
+
+        except Exception as e:
+            print("Something went wrong:", e)
 
 
 if __name__ == "__main__":
