@@ -16,7 +16,7 @@ class MainApp:
             print("1. Login")
             print("2. Register")
 
-            choice = input("Enter choice: ")
+            choice = int(input("Enter choice: "))
 
             if choice == "1":
 
@@ -58,6 +58,11 @@ class MainApp:
             print("Something went wrong:", e)
 
 
-if __name__ == "__main__":
-    main_app = MainApp()
-    main_app.run()
+while True:
+    try:
+        main_app = MainApp()
+        main_app.run()
+        break
+    except Exception as e:
+        print("Error occurred:", e)
+        print("Restarting program...\n")

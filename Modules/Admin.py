@@ -3,6 +3,7 @@ class Admin:
     def __init__(self):
         self.feedback_model=FeedbackModel()
         self.user_model=UserModel()
+        self.product_model=ProdctModel()
 
     def menu(self):
         while True:
@@ -15,7 +16,17 @@ class Admin:
                 self.ViewAll()
 
             elif choice == "2":
-                print("Managing products...")
+                print("Managing products...\t1.Add Product\t2.View All Product")
+                prod_choice=int(input("Enter Your Choice:"))
+
+                if prod_choice=="1":
+                    print("Adding Product")
+                    self.CreateProdct()
+                elif prod_choice=="2":
+                    print("Viewing Procts")
+                    self.ViewAllProducts()
+                else:
+                    print("Invald Input")
 
             elif choice == "3":
                 print("Logging out...")
