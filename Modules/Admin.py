@@ -1,3 +1,8 @@
+from Models.feedback_model import FeedbackModel
+from Models.user_model import UserModel
+from Models.product_model import ProdctModel
+from Models.db import Database
+
 class Admin:
 
     def __init__(self):
@@ -7,22 +12,32 @@ class Admin:
 
     def menu(self):
         while True:
-            print("\n--- Admin Menu ---\n1. View Feedback\t2. Manage Products\n3. Logout")
+            print("\n--- Admin Menu ---\n1. Manage Feedback\t2. Manage Products")
 
             choice = input("Enter choice: ")
 
             if choice == "1":
-                print("Viewing feedback...")
-                self.ViewAll()
+                # self.ViewAll()
+                print("Manageing Feedbacks...\t1.View All Feedbacks\t2.Change Status ")
+                feed_choice=int(input('Enter Your Choice:'))
+
+                if feed_choice==1:
+                    print("Viewing Feedbacks")
+                    self.ViewAllFeedback()
+                elif feed_choice==2:
+                    print("Change Status")
+                    self.ChangeStaus()
+                else:
+                    print("Invald Input")
 
             elif choice == "2":
                 print("Managing products...\t1.Add Product\t2.View All Product")
                 prod_choice=int(input("Enter Your Choice:"))
 
-                if prod_choice=="1":
+                if prod_choice==1:
                     print("Adding Product")
                     self.CreateProdct()
-                elif prod_choice=="2":
+                elif prod_choice==2:
                     print("Viewing Procts")
                     self.ViewAllProducts()
                 else:
@@ -36,7 +51,7 @@ class Admin:
                 print("Invalid choice")
                 return
     
-    def ViewAll(self):
+    def ViewAllFeedback(self):
         feedbacks=self.feedback_model.get_all_feedback()
 
         if not feedbacks:
@@ -45,6 +60,32 @@ class Admin:
         print('Feedbacks Are..')
         for fb in feedbacks:
             print(fb)
+
+    def ChangeStatus(self):
+
+        feedback_id = int(input("Enter Feedback ID: "))
+
+        print("1. Approve Feedback\t2. Reject Feedback")
+
+        choice = input("Enter choice: ")
+
+        if choice == "1":
+            status = "Approved"
+
+        elif choice == "2":
+            status = "Rejected"
+
+        else:
+            print("Invalid choice")
+            return
+
+        self.feedback_model.change_status(feedback_id, status)
+
+        print("Feedback status updated successfully")
+
+    def ViewAllProducts(self):
+        
+
             
 
 

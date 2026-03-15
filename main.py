@@ -18,7 +18,7 @@ class MainApp:
 
             choice = int(input("Enter choice: "))
 
-            if choice == "1":
+            if choice == 1:
 
                 role = auth.Login()
 
@@ -33,7 +33,7 @@ class MainApp:
                 else:
                     print("Invalid role returned")
 
-            elif choice == "2":
+            elif choice == 2:
 
                 print("\nRegister as: \t1.Admin\t2.Customer")
 
@@ -49,7 +49,7 @@ class MainApp:
                     print("Invalid role choice")
 
             else:
-                print("Invalid choice")
+                print("Invalid choice!")
 
         except ValueError:
             print("Invalid input! Please enter correct value")

@@ -50,12 +50,13 @@ class Authentication:
         username=input("Enter Your Name:\t").strip()
         password=input("Enter Your Password:\t").strip()
         if not self.validate(username, password):
-            return
+            return None
         role=self.user_model.login_user(username,password)
         if role:
             print("Loged In Successfully!!")
             return role[0]
         else:
             print('Role Not Found,Invalid Username or password')
+            return None
 
         

@@ -30,3 +30,15 @@ class FeedbackModel:
         feedbacks = db.cursor.fetchall()
         return feedbacks
 
+    def change_status(self,feedback_id,status):
+        db.cursor.execute(
+            '''
+            UPDATE feedback
+        SET status = ?
+        WHERE feedback_id = ?
+        ''',
+        (status, feedback_id)            
+        )
+        db.connection.commit()
+        print("Feedback status updated successfully")
+
