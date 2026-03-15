@@ -1,44 +1,63 @@
-from Models.db import Database
+from Models.db import db
 
 class FeedbackModel:
-    def __init__(self):
-        self.db = Database()
-        self.cursor = self.db.cursor
-        
-    def create_feedback(self,feedback):
-     db.cursor.execute(
-        '''
-        
-        '''
-    )
+
+    def create_feedback(self, customer_id, product_id, rating, comment):
+
+        db.cursor.execute(
+            '''
+            INSERT INTO feedback (customer_id, product_id, rating, comment)
+            VALUES (?, ?, ?, ?)
+            ''',
+            (customer_id, product_id, rating, comment)
+        )
+
+        db.conn.commit()
+
 
     def get_all_feedback(self):
-        db.cursor.execute(
-        '''
-        SELECT * FROM feedback
-        '''
-    )
-        feedbacks = db.cursor.fetchall()
-        return feedbacks
-    
-    def get_all_customer_feedback(self,role):
+
         db.cursor.execute(
             '''
-            Select * from feedback where role='Customer'
+            SELECT * FROM feedback
             '''
         )
-        feedbacks = db.cursor.fetchall()
-        return feedbacks
 
-    def change_status(self,feedback_id,status):
+        return db.cursor.fetchall()
+
+
+    def get_all_customer_feedback(self, customer_id):
+
+        db.cursor.execute(
+        '''
+        SELECT users.username,
+               products.product_name,
+               feedback.comment,
+               feedback.rating,
+               feedback.status
+        FROM feedback
+        JOIN customers ON feedback.customer_id = customers.customer_id
+        JOIN users ON customers.user_id = users.user_id
+        JOIN products ON feedback.product_id = products.product_id
+        WHERE feedback.customer_id = ?
+        ''',
+        (customer_id,)
+    )
+
+        return db.cursor.fetchall()
+
+
+    def change_status(self, feedback_id, status):
+
         db.cursor.execute(
             '''
             UPDATE feedback
-        SET status = ?
-        WHERE feedback_id = ?
-        ''',
-        (status, feedback_id)            
+            SET status = ?
+            WHERE feedback_id = ?
+            ''',
+            (status, feedback_id)
         )
-        db.connection.commit()
-        print("Feedback status updated successfully")
 
+        db.conn.commit()
+
+        print("Feedback status updated successfully")

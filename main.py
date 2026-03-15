@@ -2,6 +2,8 @@ from Modules.Authentication import Authentication
 from Modules.Admin import Admin
 from Modules.Customer import Customer
 from Modules.Feedback import Feedback
+from Models.customer_model import CustomerModel
+
 
 
 class MainApp:
@@ -20,18 +22,26 @@ class MainApp:
 
             if choice == 1:
 
-                role = auth.Login()
+                result = auth.Login()
+                if result:
+                    user_id, role = result
 
-                if role == "Admin":
-                    admin = Admin()
-                    admin.menu()
+                    if role == "Admin":
+                        admin = Admin()
+                        admin.menu()
 
-                elif role == "Customer":
-                    customer = Customer()
-                    customer.menu()
+                    elif role == "Customer":
+                        customer_model = CustomerModel()
+                        result = customer_model.get_customer_by_user_id(user_id)
+                        if result:
+                            customer_id = result[0]
+                            customer = Customer(customer_id)
+                            customer.menu()
+                        else:
+                            print("Customer Not Found")
 
-                else:
-                    print("Invalid role returned")
+                    else:
+                        print("Invalid role returned")
 
             elif choice == 2:
 
@@ -59,10 +69,5 @@ class MainApp:
 
 
 while True:
-    try:
-        main_app = MainApp()
-        main_app.run()
-        break
-    except Exception as e:
-        print("Error occurred:", e)
-        print("Restarting program...\n")
+    main_app = MainApp()
+    main_app.run()
