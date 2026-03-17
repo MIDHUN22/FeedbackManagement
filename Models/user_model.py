@@ -26,7 +26,20 @@ class UserModel:
     def login_user(self,username,password):
         db.cursor.execute(
             '''
-            SELECT user_id,role FROM users WHERE username=? AND password=?
+            SELECT user_id,role,status FROM users WHERE username=? AND password=?
             ''',(username,password)
         )
         return db.cursor.fetchone()
+
+    def block_customer(self, user_id):
+
+        db.cursor.execute(
+            '''
+            UPDATE users
+            SET status='Blocked'
+            WHERE user_id=?
+            ''',
+            (user_id,)
+        )
+
+        db.conn.commit()

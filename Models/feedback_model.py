@@ -19,7 +19,17 @@ class FeedbackModel:
 
         db.cursor.execute(
             '''
-            SELECT * FROM feedback
+           SELECT feedback.feedback_id,
+            users.username,
+            products.product_name,
+            feedback.rating,
+            feedback.comment,
+            feedback.status,
+            feedback.created_at
+                FROM feedback
+                JOIN customers ON feedback.customer_id = customers.customer_id
+                JOIN users ON customers.user_id = users.user_id
+                JOIN products ON feedback.product_id = products.product_id
             '''
         )
 
@@ -60,4 +70,14 @@ class FeedbackModel:
 
         db.conn.commit()
 
-        print("Feedback status updated successfully")
+        # print("Feedback status updated successfully")
+
+    def delete_feedback(self,feedback_id):
+        db.cursor.execute(
+            '''
+            DELETE FROM feedback WHERE feedback_id=?
+            ''',
+            (feedback_id,)
+        )
+        db.conn.commit()
+        

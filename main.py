@@ -1,73 +1,92 @@
 from Modules.Authentication import Authentication
 from Modules.Admin import Admin
 from Modules.Customer import Customer
-from Modules.Feedback import Feedback
 from Models.customer_model import CustomerModel
-
 
 
 class MainApp:
 
+    def __init__(self):
+        self.auth = Authentication()
+
     def run(self):
+        while True:
+            try:
+                print("\nWelcome to Feedback System")
+                print("1. Login")
+                print("2. Register")
+                print("3. Exit")
 
-        try:
-            print("Welcome to Feedback System")
+                choice = input("Enter choice: ").strip()
 
-            auth = Authentication()
+                if choice == "1":
+                    self.handle_login()
 
-            print("1. Login")
-            print("2. Register")
+                elif choice == "2":
+                    self.handle_register()
 
-            choice = int(input("Enter choice: "))
-
-            if choice == 1:
-
-                result = auth.Login()
-                if result:
-                    user_id, role = result
-
-                    if role == "Admin":
-                        admin = Admin()
-                        admin.menu()
-
-                    elif role == "Customer":
-                        customer_model = CustomerModel()
-                        result = customer_model.get_customer_by_user_id(user_id)
-                        if result:
-                            customer_id = result[0]
-                            customer = Customer(customer_id)
-                            customer.menu()
-                        else:
-                            print("Customer Not Found")
-
-                    else:
-                        print("Invalid role returned")
-
-            elif choice == 2:
-
-                print("\nRegister as: \t1.Admin\t2.Customer")
-
-                role_choice = input("Enter choice: ")
-
-                if role_choice == "1":
-                    auth.register("Admin")
-
-                elif role_choice == "2":
-                    auth.register("Customer")
+                elif choice == "3":
+                    print("Exiting...")
+                    break
 
                 else:
-                    print("Invalid role choice")
+                    print("Invalid choice! Please select 1–3.")
+
+                input("\nPress Enter to continue...")
+
+            except Exception as e:
+                print("Unexpected error occurred:", e)
+
+    # ---------------- LOGIN ----------------
+    def handle_login(self):
+        try:
+            result = self.auth.Login()
+
+            if not result:
+                return
+
+            user_id, role = result
+
+            if role == "Admin":
+                Admin().menu()
+
+            elif role == "Customer":
+                customer_model = CustomerModel()
+                customer_data = customer_model.get_customer_by_user_id(user_id)
+
+                if customer_data:
+                    customer_id = customer_data[0]
+                    Customer(customer_id).menu()
+                else:
+                    print("Customer Not Found")
 
             else:
-                print("Invalid choice!")
-
-        except ValueError:
-            print("Invalid input! Please enter correct value")
+                print("Invalid role returned")
 
         except Exception as e:
-            print("Something went wrong:", e)
+            print("Error during login:", e)
+
+    # ---------------- REGISTER ----------------
+    def handle_register(self):
+        try:
+            print("\nRegister as:\t1.Admin\t2.Customer")
+
+            role_choice = input("Enter choice: ").strip()
+
+            if role_choice == "1":
+                self.auth.register("Admin")
+
+            elif role_choice == "2":
+                self.auth.register("Customer")
+
+            else:
+                print("Invalid role choice")
+
+        except Exception as e:
+            print("Error during registration:", e)
 
 
-while True:
-    main_app = MainApp()
-    main_app.run()
+# ---------------- ENTRY POINT ----------------
+if __name__ == "__main__":
+    app = MainApp()
+    app.run()

@@ -25,6 +25,8 @@ class Authentication:
 
         username = input("Enter username:\t").strip()
         password = input("Enter password:\t").strip()
+        if not self.validate_password(password):
+            return
 
         if not self.validate(username, password):
             return
@@ -47,19 +49,50 @@ class Authentication:
 
     def Login(self):
         print("_______Login To Account_____")
-        username=input("Enter Your Name:\t").strip()
-        password=input("Enter Your Password:\t").strip()
+
+        username = input("Enter Your Name:\t").strip()
+        password = input("Enter Your Password:\t").strip()
 
         if not self.validate(username, password):
             return None
 
-        user=self.user_model.login_user(username,password)
+        user = self.user_model.login_user(username, password)
 
         if user:
-            print("Loged In Successfully!!")
-            return user
+            user_id, role, status = user
+
+            if status == "Blocked":
+                print("Your account is blocked. Contact admin.")
+                return None
+
+            print("Logged In Successfully!!")
+            return user_id, role
+
         else:
-            print('User Not Found,Invalid Username or password')
+            print("Invalid Username or Password")
             return None
 
-        
+
+    def validate_password(self,password):
+
+        if len(password) < 8:
+            print("Password must be at least 8 characters")
+            return False
+
+        if not re.search("[A-Z]", password):
+            print("Password must contain at least one uppercase letter")
+            return False
+
+        if not re.search("[a-z]", password):
+            print("Password must contain at least one lowercase letter")
+            return False
+
+        if not re.search("[0-9]", password):
+            print("Password must contain at least one number")
+            return False
+
+        if not re.search("[@#$%^&*!]", password):
+            print("Password must contain at least one special character")
+            return False
+
+        return True       

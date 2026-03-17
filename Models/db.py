@@ -15,9 +15,11 @@ class Database:
             username TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL,
             role TEXT CHECK(role IN ('Admin', 'Customer')) NOT NULL,
+            status TEXT CHECK(status IN ('Active','Blocked')) DEFAULT 'Active',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
         ''')
+        
 
         # Customers table
         self.cursor.execute('''

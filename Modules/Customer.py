@@ -15,27 +15,43 @@ class Customer:
 
     def menu(self):
         while True:
-            print("\n--- Customer Menu ---\t1. View Products\t2. View Feedbacks\t3. Add Feedback\t4.Logout ")
+            try:
+                print("\n--- Customer Menu ---\n1. View Products\t2. View Feedbacks\t3. Add Feedback\t4.Logout ")
 
-            choice = input("Enter choice: ")
+                choice = input("Enter choice: ").strip()
 
-            if choice == "1":
-                print("Viewing Products...")
-                self.ViewAllProducts()
+                if choice == "1":
+                    print("Viewing Products...")
+                    try:
+                        self.ViewAllProducts()
+                    except Exception as e:
+                        print("Error loading products:", e)
 
-            elif choice == "2":
-                print("Listing Feedbacks---")
-                self.ViewAllFeedback()
-               
-            elif choice == "3":
-                print("Let's Add Some Feedbacks...")
-                self.AddFeedBack()
-            elif choice == "4":
-                print("Logging out...")
-                break
+                elif choice == "2":
+                    print("Listing Feedbacks...")
+                    try:
+                        self.ViewAllFeedback()
+                    except Exception as e:
+                        print("Error loading feedbacks:", e)
 
-            else:
-                print("Invalid choice")
+                elif choice == "3":
+                    print("Let's Add Some Feedback...")
+                    try:
+                        self.AddFeedBack()
+                    except Exception as e:
+                        print("Error adding feedback:", e)
+
+                elif choice == "4":
+                    print("Logging out...")
+                    break
+
+                else:
+                    print("Invalid choice! Please select 1–4.")
+
+                input("\nPress Enter to continue...")
+
+            except Exception as e:
+                print("Unexpected error occurred:", e)
                 
     
     def ViewAllFeedback(self):
